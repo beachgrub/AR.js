@@ -19,6 +19,10 @@ AFRAME.registerComponent("arjs-device-orientation-controls", {
       type: "number",
       default: 1,
     },
+    headingOffset: {
+        type: "number",
+        default: 0,
+    },
   },
 
   init: function () {
@@ -29,6 +33,7 @@ AFRAME.registerComponent("arjs-device-orientation-controls", {
 
   update: function () {
     this._orientationControls.smoothingFactor = this.data.smoothingFactor;
+    this._orientationControls.headingOffset = this.data.headingOffset;
   },
 
   tick: function () {

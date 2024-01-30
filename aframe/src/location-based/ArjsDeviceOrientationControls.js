@@ -27,6 +27,7 @@ const ArjsDeviceOrientationControls = function (object) {
   this.alphaOffset = 0; // radians
 
   this.smoothingFactor = 1;
+  this.headingOffset = 0;
 
   this.TWO_PI = 2 * Math.PI;
   this.HALF_PI = 0.5 * Math.PI;
@@ -43,6 +44,7 @@ const ArjsDeviceOrientationControls = function (object) {
 
   var setObjectQuaternion = (function () {
     var zee = new THREE.Vector3(0, 0, 1);
+    var yaxis = new THREE.Vector3(0, 1, 0);
 
     var euler = new THREE.Euler();
 
@@ -52,8 +54,9 @@ const ArjsDeviceOrientationControls = function (object) {
 
     return function (quaternion, alpha, beta, gamma, orient) {
       euler.set(beta, alpha, -gamma, "YXZ"); // 'ZXY' for the device, but 'YXZ' for us
-
-      quaternion.setFromEuler(euler); // orient the device
+      // JCL - added heading offset into the calculations
+      quaternion.setFromAxisAngle(_yaxis, MathUtils.degToRad(scope.headingOffset));
+      quaternion.multiply(_q0.setFromEuler(_euler)); // orient the device
 
       quaternion.multiply(q1); // camera looks out the back of the device, not the top
 

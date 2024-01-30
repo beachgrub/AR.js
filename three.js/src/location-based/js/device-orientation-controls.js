@@ -3,6 +3,7 @@
 
 import { Euler, EventDispatcher, MathUtils, Quaternion, Vector3 } from "three";
 
+const _yaxis = new Vector3(0, 1, 0);
 const _zee = new Vector3(0, 0, 1);
 const _euler = new Euler();
 const _q0 = new Quaternion();
@@ -43,6 +44,7 @@ class DeviceOrientationControls extends EventDispatcher {
         : "deviceorientation";
 
     this.smoothingFactor = 1;
+    this.headingOffset = 0;
 
     const onDeviceOrientationChangeEvent = function (event) {
       scope.deviceOrientation = event;
@@ -62,8 +64,9 @@ class DeviceOrientationControls extends EventDispatcher {
       orient
     ) {
       _euler.set(beta, alpha, -gamma, "YXZ"); // 'ZXY' for the device, but 'YXZ' for us
-
-      quaternion.setFromEuler(_euler); // orient the device
+	  // JCL - added in heading offset
+      quaternion.setFromAxisAngle(_yaxis, MathUtils.degToRad(scope.headingOffset));
+      quaternion.multiply(_q0.setFromEuler(_euler)); // orient the device
 
       quaternion.multiply(_q1); // camera looks out the back of the device, not the top
 

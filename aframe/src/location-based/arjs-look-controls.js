@@ -25,6 +25,7 @@ AFRAME.registerComponent("arjs-look-controls", {
     reverseTouchDrag: { default: false },
     touchEnabled: { default: true },
     smoothingFactor: { type: "number", default: 1 },
+    headingOffset: { type: "number", default: 0 },
   },
 
   init: function () {
@@ -109,6 +110,7 @@ AFRAME.registerComponent("arjs-look-controls", {
     if (this.magicWindowControls) {
       this.magicWindowControls.enabled = data.magicWindowTrackingEnabled;
       this.magicWindowControls.smoothingFactor = data.smoothingFactor;
+      this.magicWindowControls.headingOffset = data.headingOffset;
     }
 
     if (oldData && !data.pointerLockEnabled !== oldData.pointerLockEnabled) {
